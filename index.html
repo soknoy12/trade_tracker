@@ -203,8 +203,7 @@
 				font-weight: 600;
 			}
 
-			.add-btn {
-				background: linear-gradient(135deg, #27ae60, #2ecc71);
+			.btn {
 				color: white;
 				border: none;
 				padding: 12px 24px;
@@ -213,12 +212,40 @@
 				font-weight: 600;
 				cursor: pointer;
 				transition: all 0.3s ease;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				gap: 8px;
+			}
+
+			.btn-primary {
+				background: linear-gradient(135deg, #27ae60, #2ecc71);
 				box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
 			}
 
-			.add-btn:hover {
+			.btn-primary:hover {
 				transform: translateY(-2px);
 				box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+			}
+
+			.btn-secondary {
+				background: linear-gradient(135deg, #3498db, #2980b9);
+				box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+			}
+
+			.btn-secondary:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+			}
+
+			.btn-danger {
+				background: linear-gradient(135deg, #e74c3c, #c0392b);
+				box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+			}
+
+			.btn-danger:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
 			}
 
 			.investor-item {
@@ -276,6 +303,157 @@
 				margin-top: 30px;
 			}
 
+			/* History section styles */
+			.history-item {
+				background: #f8f9fa;
+				border-radius: 12px;
+				padding: 20px;
+				margin-bottom: 15px;
+				border-left: 4px solid #3498db;
+				transition: all 0.3s ease;
+			}
+
+			.history-item:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+			}
+
+			.history-header {
+				display: flex;
+				justify-content: space-between;
+				margin-bottom: 10px;
+			}
+
+			.history-date {
+				font-weight: 600;
+				color: #2c3e50;
+			}
+
+			.history-profit {
+				font-weight: 600;
+			}
+
+			.history-profit.positive {
+				color: #27ae60;
+			}
+
+			.history-profit.negative {
+				color: #e74c3c;
+			}
+
+			.history-details {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+				gap: 15px;
+				margin-top: 10px;
+			}
+
+			.history-detail {
+				font-size: 0.9rem;
+			}
+
+			.history-detail strong {
+				display: block;
+				font-size: 0.8rem;
+				color: #7f8c8d;
+				margin-bottom: 3px;
+			}
+
+			.history-actions {
+				display: flex;
+				gap: 10px;
+				margin-top: 15px;
+			}
+
+			.history-actions .btn {
+				padding: 8px 16px;
+				font-size: 0.9rem;
+			}
+
+			/* Modal styles */
+			.modal {
+				display: none;
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(0, 0, 0, 0.5);
+				z-index: 1000;
+				justify-content: center;
+				align-items: center;
+			}
+
+			.modal-content {
+				background-color: white;
+				border-radius: 15px;
+				width: 90%;
+				max-width: 600px;
+				max-height: 90vh;
+				overflow-y: auto;
+				padding: 30px;
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+			}
+
+			.modal-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 20px;
+			}
+
+			.modal-title {
+				font-size: 1.5rem;
+				color: #2c3e50;
+				font-weight: 600;
+			}
+
+			.close-modal {
+				background: none;
+				border: none;
+				font-size: 1.5rem;
+				cursor: pointer;
+				color: #7f8c8d;
+			}
+
+			.modal-footer {
+				display: flex;
+				justify-content: flex-end;
+				gap: 15px;
+				margin-top: 30px;
+			}
+
+			/* Notes section */
+			.notes-group {
+				margin-top: 20px;
+			}
+
+			.notes-group label {
+				display: block;
+				font-weight: 600;
+				color: #2c3e50;
+				margin-bottom: 8px;
+				font-size: 1rem;
+			}
+
+			.notes-group textarea {
+				width: 100%;
+				padding: 12px 15px;
+				border: 2px solid #ddd;
+				border-radius: 8px;
+				font-size: 1rem;
+				transition: border-color 0.3s ease;
+				min-height: 100px;
+				resize: vertical;
+			}
+
+			.notes-group textarea:focus {
+				outline: none;
+				border-color: #3498db;
+				box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+			}
+
+			/* Responsive styles */
 			@media (max-width: 768px) {
 				.header h1 {
 					font-size: 2rem;
@@ -295,6 +473,14 @@
 
 				.results-grid {
 					grid-template-columns: 1fr;
+				}
+
+				.investor-inputs {
+					grid-template-columns: 1fr;
+				}
+
+				.history-details {
+					grid-template-columns: 1fr 1fr;
 				}
 			}
 		</style>
@@ -345,13 +531,29 @@
 							"
 						>
 							<h3 style="color: #2c3e50; margin: 0">Investors</h3>
-							<button id="addInvestorBtn" class="add-btn">
+							<button id="addInvestorBtn" class="btn btn-primary">
 								<span>+ Add Investor</span>
 							</button>
 						</div>
 						<div id="investorsContainer">
 							<!-- Dynamic investor inputs will be added here -->
 						</div>
+					</div>
+
+					<div class="notes-group">
+						<label for="calculationNotes">Notes (Optional)</label>
+						<textarea
+							id="calculationNotes"
+							placeholder="Add any notes about this calculation"
+						></textarea>
+					</div>
+
+					<div
+						style="margin-top: 30px; display: flex; justify-content: flex-end"
+					>
+						<button id="saveCalculationBtn" class="btn btn-primary">
+							<span>💾 Save Calculation</span>
+						</button>
 					</div>
 				</div>
 
@@ -402,36 +604,274 @@
 						</tbody>
 					</table>
 				</div>
+
+				<!-- History Section -->
+				<div class="section">
+					<h2>📅 Calculation History</h2>
+					<button
+						id="loadHistoryBtn"
+						class="btn btn-secondary"
+						style="margin-bottom: 20px"
+					>
+						<span>🔃 Load History</span>
+					</button>
+					<div id="historyContainer">
+						<!-- Past calculations will be displayed here -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Calculation Details Modal -->
+		<div id="calculationDetailsModal" class="modal">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Calculation Details</h3>
+					<button class="close-modal">&times;</button>
+				</div>
+				<div
+					id="modalCalculationDate"
+					class="history-date"
+					style="margin-bottom: 20px"
+				></div>
+
+				<h4 style="color: #2c3e50; margin-bottom: 15px">Summary</h4>
+				<div
+					class="results-grid"
+					style="
+						grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+						margin-bottom: 20px;
+					"
+				>
+					<div class="result-card">
+						<h3>Total Profit/Loss</h3>
+						<div class="result-value currency" id="modalTotalProfit">$0.00</div>
+					</div>
+					<div class="result-card">
+						<h3>Trader Capital</h3>
+						<div class="result-value currency" id="modalTraderCapital">
+							$0.00
+						</div>
+					</div>
+					<div class="result-card">
+						<h3>Total Pool</h3>
+						<div class="result-value currency" id="modalTotalPool">$0.00</div>
+					</div>
+					<div class="result-card">
+						<h3>Profit Status</h3>
+						<div class="result-value" id="modalProfitStatus">
+							<span class="profit-indicator profit">PROFIT</span>
+						</div>
+					</div>
+				</div>
+
+				<h4 style="color: #2c3e50; margin-bottom: 15px">Participants</h4>
+				<table class="ownership-table">
+					<thead>
+						<tr>
+							<th>Participant</th>
+							<th>Capital</th>
+							<th>Ownership %</th>
+							<th>Final Balance</th>
+							<th>Profit/Loss</th>
+						</tr>
+					</thead>
+					<tbody id="modalOwnershipTableBody">
+						<!-- Dynamic content will be inserted here -->
+					</tbody>
+				</table>
+
+				<div id="modalNotesSection" style="margin-top: 20px">
+					<h4 style="color: #2c3e50; margin-bottom: 15px">Notes</h4>
+					<div
+						id="modalNotesContent"
+						style="background: #f8f9fa; padding: 15px; border-radius: 8px"
+					></div>
+				</div>
+
+				<div class="modal-footer">
+					<button id="deleteCalculationBtn" class="btn btn-danger">
+						Delete
+					</button>
+					<button class="btn btn-secondary close-modal">Close</button>
+				</div>
 			</div>
 		</div>
 
 		<script>
-			// Investor management
+			// Database and state management
+			let db;
+			const DB_NAME = "ProfitCalculatorDB";
+			const DB_VERSION = 1;
+			const STORE_CALCULATIONS = "calculations";
+			const STORE_INVESTORS = "investors";
+
+			function initDatabase() {
+				return new Promise((resolve, reject) => {
+					const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+					request.onerror = event => {
+						console.error("Database error:", event.target.error);
+						reject("Database error");
+					};
+
+					request.onsuccess = event => {
+						db = event.target.result;
+						console.log("Database initialized.");
+						resolve(db);
+					};
+
+					request.onupgradeneeded = event => {
+						const db = event.target.result;
+
+						// Create calculations store
+						const calculationsStore = db.createObjectStore(STORE_CALCULATIONS, {
+							keyPath: "id",
+							autoIncrement: true,
+						});
+						calculationsStore.createIndex("date", "calculation_date", {
+							unique: false,
+						});
+
+						// Create investors store
+						const investorsStore = db.createObjectStore(STORE_INVESTORS, {
+							keyPath: "id",
+							autoIncrement: true,
+						});
+						investorsStore.createIndex("calculation_id", "calculation_id", {
+							unique: false,
+						});
+					};
+				});
+			}
+
+			function saveNote() {
+				const input = document.getElementById("noteInput").value;
+
+				if (!db) {
+					document.getElementById("status").innerText =
+						"Database not initialized.";
+					return;
+				}
+
+				const transaction = db.transaction([STORE_CALCULATIONS], "readwrite");
+				const store = transaction.objectStore(STORE_CALCULATIONS);
+
+				const note = {
+					content: input,
+					timestamp: new Date().getTime(),
+				};
+
+				const request = store.add(note);
+
+				request.onsuccess = () => {
+					document.getElementById("status").innerText = "Note saved!";
+					console.log("Saved:", input);
+				};
+
+				request.onerror = event => {
+					console.error("Insert error:", event.target.error);
+				};
+			}
+
+			// Initialize database on page load
+			document.addEventListener("DOMContentLoaded", () => {
+				initDatabase().catch(err => {
+					alert("Failed to initialize database: " + err);
+				});
+			});
+
+			let currentCalculationId = null;
 			let investorCount = 0;
 			let investors = [];
 
-			// Get input elements
-			const totalProfitInput = document.getElementById("totalProfit");
-			const traderCapitalInput = document.getElementById("traderCapital");
-			const addInvestorBtn = document.getElementById("addInvestorBtn");
-			const investorsContainer = document.getElementById("investorsContainer");
-
-			// Get result elements
-			const results = {
-				totalPool: document.getElementById("totalPool"),
-				traderShare: document.getElementById("traderShare"),
-				traderFees: document.getElementById("traderFees"),
-				totalInvestors: document.getElementById("totalInvestors"),
-				profitStatus: document.getElementById("profitStatus"),
+			// DOM elements
+			const elements = {
+				inputs: {
+					totalProfit: document.getElementById("totalProfit"),
+					traderCapital: document.getElementById("traderCapital"),
+					calculationNotes: document.getElementById("calculationNotes"),
+				},
+				buttons: {
+					addInvestor: document.getElementById("addInvestorBtn"),
+					saveCalculation: document.getElementById("saveCalculationBtn"),
+					loadHistory: document.getElementById("loadHistoryBtn"),
+					deleteCalculation: document.getElementById("deleteCalculationBtn"),
+				},
+				results: {
+					totalPool: document.getElementById("totalPool"),
+					traderShare: document.getElementById("traderShare"),
+					traderFees: document.getElementById("traderFees"),
+					totalInvestors: document.getElementById("totalInvestors"),
+					profitStatus: document.getElementById("profitStatus"),
+					ownershipTable: document.getElementById("ownershipTableBody"),
+				},
+				containers: {
+					investors: document.getElementById("investorsContainer"),
+					history: document.getElementById("historyContainer"),
+				},
+				modals: {
+					calculationDetails: document.getElementById(
+						"calculationDetailsModal"
+					),
+					closeButtons: document.querySelectorAll(".close-modal"),
+				},
+				modalElements: {
+					date: document.getElementById("modalCalculationDate"),
+					totalProfit: document.getElementById("modalTotalProfit"),
+					traderCapital: document.getElementById("modalTraderCapital"),
+					totalPool: document.getElementById("modalTotalPool"),
+					profitStatus: document.getElementById("modalProfitStatus"),
+					ownershipTable: document.getElementById("modalOwnershipTableBody"),
+					notes: document.getElementById("modalNotesContent"),
+				},
 			};
 
-			const ownershipTableBody = document.getElementById("ownershipTableBody");
+			// Initialize the application
+			document.addEventListener("DOMContentLoaded", function () {
+				setupEventListeners();
+				initializeDemo();
+			});
 
-			// Event listeners
-			totalProfitInput.addEventListener("input", calculateShares);
-			traderCapitalInput.addEventListener("input", calculateShares);
-			addInvestorBtn.addEventListener("click", addInvestor);
+			// Set up event listeners
+			function setupEventListeners() {
+				// Input changes
+				elements.inputs.totalProfit.addEventListener("input", calculateShares);
+				elements.inputs.traderCapital.addEventListener(
+					"input",
+					calculateShares
+				);
 
+				// Buttons
+				elements.buttons.addInvestor.addEventListener("click", addInvestor);
+				elements.buttons.saveCalculation.addEventListener(
+					"click",
+					saveCurrentCalculation
+				);
+				elements.buttons.loadHistory.addEventListener("click", loadHistory);
+				elements.buttons.deleteCalculation.addEventListener(
+					"click",
+					deleteCurrentCalculation
+				);
+
+				// Modal
+				elements.modals.closeButtons.forEach(btn => {
+					btn.addEventListener("click", () => {
+						elements.modals.calculationDetails.style.display = "none";
+						currentCalculationId = null;
+					});
+				});
+
+				// Close modal when clicking outside
+				window.addEventListener("click", event => {
+					if (event.target === elements.modals.calculationDetails) {
+						elements.modals.calculationDetails.style.display = "none";
+						currentCalculationId = null;
+					}
+				});
+			}
+
+			// Investor management
 			function addInvestor() {
 				investorCount++;
 				const investorId = `investor${investorCount}`;
@@ -441,23 +881,23 @@
 				investorDiv.id = `${investorId}Container`;
 
 				investorDiv.innerHTML = `
-                <div class="investor-header">
-                    <h4 class="investor-title">Investor ${investorCount}</h4>
-                    <button class="remove-btn" onclick="removeInvestor('${investorId}')">Remove</button>
+            <div class="investor-header">
+                <h4 class="investor-title">Investor ${investorCount}</h4>
+                <button class="remove-btn" onclick="removeInvestor('${investorId}')">Remove</button>
+            </div>
+            <div class="investor-inputs">
+                <div class="input-group">
+                    <label for="${investorId}Capital">Capital ($)</label>
+                    <input type="number" id="${investorId}Capital" placeholder="Enter capital amount" step="0.01" min="0">
                 </div>
-                <div class="investor-inputs">
-                    <div class="input-group">
-                        <label for="${investorId}Capital">Capital ($)</label>
-                        <input type="number" id="${investorId}Capital" placeholder="Enter capital amount" step="0.01" min="0">
-                    </div>
-                    <div class="input-group">
-                        <label for="${investorId}Fee">Fee Rate (%)</label>
-                        <input type="number" id="${investorId}Fee" placeholder="Fee %" step="0.1" min="0" max="100">
-                    </div>
+                <div class="input-group">
+                    <label for="${investorId}Fee">Fee Rate (%)</label>
+                    <input type="number" id="${investorId}Fee" placeholder="Fee %" step="0.1" min="0" max="100">
                 </div>
-            `;
+            </div>
+        `;
 
-				investorsContainer.appendChild(investorDiv);
+				elements.containers.investors.appendChild(investorDiv);
 
 				// Add event listeners to new inputs
 				document
@@ -505,22 +945,12 @@
 					.filter(inv => inv.capital > 0); // Only include investors with capital
 			}
 
-			function formatCurrency(amount) {
-				return new Intl.NumberFormat("en-US", {
-					style: "currency",
-					currency: "USD",
-					minimumFractionDigits: 2,
-				}).format(amount);
-			}
-
-			function formatPercentage(percentage) {
-				return `${percentage.toFixed(2)}%`;
-			}
-
+			// Calculation functions
 			function calculateShares() {
 				// Get input values
-				const totalProfit = parseFloat(totalProfitInput.value) || 0;
-				const traderCapital = parseFloat(traderCapitalInput.value) || 0;
+				const totalProfit = parseFloat(elements.inputs.totalProfit.value) || 0;
+				const traderCapital =
+					parseFloat(elements.inputs.traderCapital.value) || 0;
 				const investorData = getInvestorData();
 
 				// Calculate total capital pool
@@ -587,30 +1017,66 @@
 				const traderFinalBalance = traderCapital + traderProfit;
 
 				// Update results display
-				results.totalPool.textContent = formatCurrency(totalCapital);
-				results.traderShare.textContent = formatCurrency(traderFinalBalance);
-				results.traderFees.textContent = formatCurrency(traderFees);
-				results.totalInvestors.textContent = investorData.length.toString();
+				updateResultsDisplay({
+					totalProfit,
+					traderCapital,
+					totalCapital,
+					traderFinalBalance,
+					traderFees,
+					investorData,
+					traderProfit,
+					investorResults,
+				});
+
+				// Return calculation data for saving
+				return {
+					totalProfit,
+					traderCapital,
+					totalCapital,
+					traderFinalBalance,
+					traderFees,
+					isProfit: totalProfit >= 0,
+					investorResults,
+					notes: elements.inputs.calculationNotes.value,
+					calculation_date: new Date().getTime(),
+				};
+			}
+
+			function updateResultsDisplay(data) {
+				elements.results.totalPool.textContent = formatCurrency(
+					data.totalCapital
+				);
+				elements.results.traderShare.textContent = formatCurrency(
+					data.traderFinalBalance
+				);
+				elements.results.traderFees.textContent = formatCurrency(
+					data.traderFees
+				);
+				elements.results.totalInvestors.textContent =
+					data.investorData.length.toString();
 
 				// Update profit status
-				const isProfit = totalProfit >= 0;
-				results.profitStatus.innerHTML = isProfit
+				const isProfit = data.totalProfit >= 0;
+				elements.results.profitStatus.innerHTML = isProfit
 					? '<span class="profit-indicator profit">PROFIT</span>'
 					: '<span class="profit-indicator loss">LOSS</span>';
 
 				// Apply color classes to result values
-				results.traderShare.classList.toggle(
+				elements.results.traderShare.classList.toggle(
 					"negative",
-					traderFinalBalance < traderCapital
+					data.traderFinalBalance < data.traderCapital
 				);
 
 				// Update ownership table
 				updateOwnershipTable({
-					traderCapital,
-					traderOwnership,
-					traderFinalBalance,
-					traderProfit,
-					investorResults,
+					traderCapital: data.traderCapital,
+					traderOwnership:
+						data.traderCapital > 0
+							? (data.traderCapital / data.totalCapital) * 100
+							: 0,
+					traderFinalBalance: data.traderFinalBalance,
+					traderProfit: data.traderProfit,
+					investorResults: data.investorResults,
 				});
 			}
 
@@ -632,42 +1098,332 @@
 					})),
 				];
 
-				ownershipTableBody.innerHTML = rows
+				elements.results.ownershipTable.innerHTML = rows
 					.map(
 						row => `
-                <tr>
-                    <td><strong>${row.name}</strong></td>
-                    <td>${formatCurrency(row.capital)}</td>
-                    <td>${formatPercentage(row.ownership)}</td>
-                    <td class="${
-											row.finalBalance < row.capital ? "negative" : ""
-										}">${formatCurrency(row.finalBalance)}</td>
-                    <td class="${
-											row.profitLoss < 0 ? "negative" : ""
-										}">${formatCurrency(row.profitLoss)}</td>
-                </tr>
-            `
+                    <tr>
+                        <td><strong>${row.name}</strong></td>
+                        <td>${formatCurrency(row.capital)}</td>
+                        <td>${formatPercentage(row.ownership)}</td>
+                        <td class="${
+													row.finalBalance < row.capital ? "negative" : ""
+												}">${formatCurrency(row.finalBalance)}</td>
+                        <td class="${
+													row.profitLoss < 0 ? "negative" : ""
+												}">${formatCurrency(row.profitLoss)}</td>
+                    </tr>
+                `
 					)
 					.join("");
 			}
 
-			// Add initial investors for demo
-			function initializeDemo() {
-				// Add first investor
-				addInvestor();
-				document.getElementById("investor1Capital").value = 500;
-				document.getElementById("investor1Fee").value = 15;
+			// Database operations
+			async function saveCurrentCalculation() {
+				if (!db) {
+					showError("Database not initialized.");
+					return;
+				}
 
-				// Add second investor
-				addInvestor();
-				document.getElementById("investor2Capital").value = 200;
-				document.getElementById("investor2Fee").value = 20;
+				const calculationData = calculateShares();
 
-				calculateShares();
+				try {
+					// Start a transaction
+					const transaction = db.transaction(
+						[STORE_CALCULATIONS, STORE_INVESTORS],
+						"readwrite"
+					);
+
+					// Save calculation
+					const calculationsStore = transaction.objectStore(STORE_CALCULATIONS);
+					const calculationRequest = calculationsStore.add({
+						total_profit: calculationData.totalProfit,
+						trader_capital: calculationData.traderCapital,
+						total_pool: calculationData.totalCapital,
+						trader_share: calculationData.traderFinalBalance,
+						trader_fees: calculationData.traderFees,
+						profit_status: calculationData.isProfit ? "PROFIT" : "LOSS",
+						notes: calculationData.notes,
+						calculation_date: calculationData.calculation_date,
+					});
+
+					calculationRequest.onsuccess = event => {
+						const calculationId = event.target.result;
+
+						// Save investors
+						const investorsStore = transaction.objectStore(STORE_INVESTORS);
+						calculationData.investorResults.forEach(investor => {
+							investorsStore.add({
+								calculation_id: calculationId,
+								investor_number: investor.number,
+								capital: investor.capital,
+								fee_rate: investor.feeRate,
+								ownership_percentage: investor.ownership,
+								profit_share: investor.profitShare,
+								fee_amount: investor.fee,
+								final_profit: investor.finalProfit,
+								final_balance: investor.finalBalance,
+							});
+						});
+
+						showSuccess("Calculation saved successfully!");
+						loadHistory();
+					};
+
+					calculationRequest.onerror = event => {
+						console.error("Error saving calculation:", event.target.error);
+						showError("Failed to save calculation. Please try again.");
+					};
+				} catch (error) {
+					console.error("Transaction error:", error);
+					showError("Failed to save calculation. Please try again.");
+				}
 			}
 
-			// Initialize with demo data
-			initializeDemo();
+			function loadHistory() {
+				if (!db) {
+					showError("Database not initialized.");
+					return;
+				}
+
+				const transaction = db.transaction([STORE_CALCULATIONS], "readonly");
+				const store = transaction.objectStore(STORE_CALCULATIONS);
+				const index = store.index("date");
+
+				// Get all calculations sorted by date
+				const request = index.getAll();
+
+				request.onsuccess = event => {
+					const calculations = event.target.result;
+
+					// For each calculation, count investors
+					Promise.all(
+						calculations.map(calc => {
+							return new Promise(resolve => {
+								const investorTransaction = db.transaction(
+									[STORE_INVESTORS],
+									"readonly"
+								);
+								const investorStore =
+									investorTransaction.objectStore(STORE_INVESTORS);
+								const investorIndex = investorStore.index("calculation_id");
+								const countRequest = investorIndex.count(calc.id);
+
+								countRequest.onsuccess = e => {
+									resolve({
+										...calc,
+										investor_count: e.target.result,
+									});
+								};
+
+								countRequest.onerror = () => {
+									resolve({
+										...calc,
+										investor_count: 0,
+									});
+								};
+							});
+						})
+					).then(calculationsWithCounts => {
+						displayHistory(calculationsWithCounts.reverse()); // Show newest first
+					});
+				};
+
+				request.onerror = event => {
+					console.error("Error loading history:", event.target.error);
+					showError("Failed to load history. Please try again.");
+				};
+			}
+
+			function displayHistory(calculations) {
+				if (calculations.length === 0) {
+					elements.containers.history.innerHTML = `
+                <div style="text-align: center; padding: 20px; color: #7f8c8d;">
+                    No calculations found in history.
+                </div>
+            `;
+					return;
+				}
+
+				elements.containers.history.innerHTML = calculations
+					.map(
+						calc => `
+                    <div class="history-item" data-id="${calc.id}">
+                        <div class="history-header">
+                            <div class="history-date">${formatDate(
+															calc.calculation_date
+														)}</div>
+                            <div class="history-profit ${
+															calc.total_profit >= 0 ? "positive" : "negative"
+														}">
+                                ${formatCurrency(calc.total_profit)}
+                            </div>
+                        </div>
+                        <div class="history-body">
+                            <p>Trader Share: ${formatCurrency(
+															calc.trader_share
+														)} | Fees: ${formatCurrency(
+							calc.trader_fees
+						)} | Investors: ${calc.investor_count}</p>
+                            <button class="view-btn" onclick="showCalculationDetails(${
+															calc.id
+														})">View</button>
+                        </div>
+                    </div>
+                `
+					)
+					.join("");
+			}
+
+			function showCalculationDetails(id) {
+				if (!db) {
+					showError("Database not initialized.");
+					return;
+				}
+
+				// Get calculation
+				const transaction = db.transaction([STORE_CALCULATIONS], "readonly");
+				const store = transaction.objectStore(STORE_CALCULATIONS);
+				const request = store.get(id);
+
+				request.onsuccess = event => {
+					const calc = event.target.result;
+					if (!calc) return;
+
+					// Set modal values
+					elements.modalElements.date.textContent = formatDate(
+						calc.calculation_date
+					);
+					elements.modalElements.totalProfit.textContent = formatCurrency(
+						calc.total_profit
+					);
+					elements.modalElements.traderCapital.textContent = formatCurrency(
+						calc.trader_capital
+					);
+					elements.modalElements.totalPool.textContent = formatCurrency(
+						calc.total_pool
+					);
+					elements.modalElements.profitStatus.innerHTML =
+						calc.profit_status === "PROFIT"
+							? '<span class="profit-indicator profit">PROFIT</span>'
+							: '<span class="profit-indicator loss">LOSS</span>';
+					elements.modalElements.notes.textContent = calc.notes || "—";
+
+					// Get related investors
+					const investorTransaction = db.transaction(
+						[STORE_INVESTORS],
+						"readonly"
+					);
+					const investorStore =
+						investorTransaction.objectStore(STORE_INVESTORS);
+					const investorIndex = investorStore.index("calculation_id");
+					const investorRequest = investorIndex.getAll(id);
+
+					investorRequest.onsuccess = e => {
+						const investors = e.target.result;
+						const rows = investors.map(
+							inv => `
+                    <tr>
+                        <td>Investor ${inv.investor_number}</td>
+                        <td>${formatCurrency(inv.capital)}</td>
+                        <td>${formatPercentage(inv.ownership_percentage)}</td>
+                        <td>${formatCurrency(inv.final_balance)}</td>
+                        <td>${formatCurrency(inv.final_profit)}</td>
+                    </tr>
+                `
+						);
+
+						elements.modalElements.ownershipTable.innerHTML = rows.join("");
+						elements.modals.calculationDetails.style.display = "block";
+						currentCalculationId = id;
+					};
+				};
+			}
+
+			function deleteCurrentCalculation() {
+				if (!currentCalculationId) {
+					showError("No calculation selected to delete.");
+					return;
+				}
+
+				if (!db) {
+					showError("Database not initialized.");
+					return;
+				}
+
+				const confirmed = confirm(
+					"Are you sure you want to delete this calculation? This cannot be undone."
+				);
+				if (!confirmed) return;
+
+				const transaction = db.transaction(
+					[STORE_CALCULATIONS, STORE_INVESTORS],
+					"readwrite"
+				);
+
+				// Delete investors first
+				const investorStore = transaction.objectStore(STORE_INVESTORS);
+				const investorIndex = investorStore.index("calculation_id");
+				const investorRequest = investorIndex.openCursor(
+					IDBKeyRange.only(currentCalculationId)
+				);
+
+				investorRequest.onsuccess = event => {
+					const cursor = event.target.result;
+					if (cursor) {
+						investorStore.delete(cursor.primaryKey);
+						cursor.continue();
+					}
+				};
+
+				// Then delete the calculation
+				transaction.oncomplete = () => {
+					const calcTransaction = db.transaction(
+						[STORE_CALCULATIONS],
+						"readwrite"
+					);
+					const calcStore = calcTransaction.objectStore(STORE_CALCULATIONS);
+					calcStore.delete(currentCalculationId);
+
+					calcTransaction.oncomplete = () => {
+						showSuccess("Calculation deleted.");
+						elements.modals.calculationDetails.style.display = "none";
+						loadHistory();
+						currentCalculationId = null;
+					};
+				};
+			}
+
+			// Utils
+			function formatCurrency(value) {
+				return "$" + value.toFixed(2);
+			}
+
+			function formatPercentage(value) {
+				return value.toFixed(2) + "%";
+			}
+
+			function formatDate(timestamp) {
+				const date = new Date(timestamp);
+				return date.toLocaleString();
+			}
+
+			function showError(message) {
+				alert("❌ " + message);
+			}
+
+			function showSuccess(message) {
+				alert("✅ " + message);
+			}
+
+			// Demo initialization
+			function initializeDemo() {
+				elements.inputs.totalProfit.value = 5000;
+				elements.inputs.traderCapital.value = 3000;
+				addInvestor();
+				document.getElementById("investor1Capital").value = 1000;
+				document.getElementById("investor1Fee").value = 10;
+				calculateShares();
+			}
 		</script>
 	</body>
 </html>
