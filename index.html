@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Trading Profit Sharing Calculator</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+				min-height: 100vh;
+				padding: 20px;
+			}
+
+			.container {
+				max-width: 1200px;
+				margin: 0 auto;
+				background: rgba(255, 255, 255, 0.95);
+				border-radius: 20px;
+				box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+				overflow: hidden;
+			}
+
+			.header {
+				background: linear-gradient(135deg, #2c3e50, #3498db);
+				color: white;
+				padding: 30px;
+				text-align: center;
+			}
+
+			.header h1 {
+				font-size: 2.5rem;
+				margin-bottom: 10px;
+				font-weight: 300;
+			}
+
+			.header p {
+				opacity: 0.9;
+				font-size: 1.1rem;
+			}
+
+			.content {
+				padding: 40px;
+			}
+
+			.section {
+				margin-bottom: 40px;
+				background: white;
+				border-radius: 15px;
+				padding: 30px;
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+				border: 1px solid #e8ecf4;
+			}
+
+			.section h2 {
+				color: #2c3e50;
+				font-size: 1.8rem;
+				margin-bottom: 25px;
+				font-weight: 600;
+				border-bottom: 3px solid #3498db;
+				padding-bottom: 10px;
+			}
+
+			.input-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				gap: 25px;
+				margin-bottom: 30px;
+			}
+
+			.input-group {
+				background: #f8f9fa;
+				border-radius: 12px;
+				padding: 20px;
+				border: 2px solid transparent;
+				transition: all 0.3s ease;
+			}
+
+			.input-group:hover {
+				border-color: #3498db;
+				transform: translateY(-2px);
+			}
+
+			.input-group label {
+				display: block;
+				font-weight: 600;
+				color: #2c3e50;
+				margin-bottom: 8px;
+				font-size: 1rem;
+			}
+
+			.input-group input {
+				width: 100%;
+				padding: 12px 15px;
+				border: 2px solid #ddd;
+				border-radius: 8px;
+				font-size: 1rem;
+				transition: border-color 0.3s ease;
+				background: white;
+			}
+
+			.input-group input:focus {
+				outline: none;
+				border-color: #3498db;
+				box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+			}
+
+			.results-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+				gap: 20px;
+			}
+
+			.result-card {
+				background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+				border-radius: 12px;
+				padding: 25px;
+				border-left: 5px solid #3498db;
+				transition: transform 0.3s ease;
+			}
+
+			.result-card:hover {
+				transform: translateY(-3px);
+			}
+
+			.result-card h3 {
+				color: #2c3e50;
+				font-size: 1.1rem;
+				margin-bottom: 10px;
+				font-weight: 600;
+			}
+
+			.result-value {
+				font-size: 1.8rem;
+				font-weight: 700;
+				color: #27ae60;
+			}
+
+			.negative {
+				color: #e74c3c;
+			}
+
+			.ownership-table {
+				width: 100%;
+				border-collapse: collapse;
+				background: white;
+				border-radius: 12px;
+				overflow: hidden;
+				box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+			}
+
+			.ownership-table th,
+			.ownership-table td {
+				padding: 15px;
+				text-align: left;
+				border-bottom: 1px solid #eee;
+			}
+
+			.ownership-table th {
+				background: linear-gradient(135deg, #34495e, #2c3e50);
+				color: white;
+				font-weight: 600;
+				text-transform: uppercase;
+				font-size: 0.9rem;
+				letter-spacing: 0.5px;
+			}
+
+			.ownership-table tr:nth-child(even) {
+				background: #f8f9fa;
+			}
+
+			.ownership-table tr:hover {
+				background: #e3f2fd;
+				transition: background 0.3s ease;
+			}
+
+			.profit-indicator {
+				display: inline-block;
+				padding: 5px 12px;
+				border-radius: 20px;
+				font-size: 0.9rem;
+				font-weight: 600;
+				text-transform: uppercase;
+			}
+
+			.profit {
+				background: #d4edda;
+				color: #155724;
+			}
+
+			.loss {
+				background: #f8d7da;
+				color: #721c24;
+			}
+
+			.currency {
+				font-weight: 600;
+			}
+
+			.add-btn {
+				background: linear-gradient(135deg, #27ae60, #2ecc71);
+				color: white;
+				border: none;
+				padding: 12px 24px;
+				border-radius: 25px;
+				font-size: 1rem;
+				font-weight: 600;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+			}
+
+			.add-btn:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+			}
+
+			.investor-item {
+				background: #f8f9fa;
+				border-radius: 15px;
+				padding: 25px;
+				margin-bottom: 20px;
+				border: 2px solid #e9ecef;
+				position: relative;
+				transition: all 0.3s ease;
+			}
+
+			.investor-item:hover {
+				border-color: #3498db;
+				transform: translateY(-2px);
+			}
+
+			.investor-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 20px;
+			}
+
+			.investor-title {
+				font-size: 1.2rem;
+				font-weight: 600;
+				color: #2c3e50;
+				margin: 0;
+			}
+
+			.remove-btn {
+				background: linear-gradient(135deg, #e74c3c, #c0392b);
+				color: white;
+				border: none;
+				padding: 8px 16px;
+				border-radius: 20px;
+				font-size: 0.9rem;
+				cursor: pointer;
+				transition: all 0.3s ease;
+			}
+
+			.remove-btn:hover {
+				transform: scale(1.05);
+				box-shadow: 0 3px 10px rgba(231, 76, 60, 0.3);
+			}
+
+			.investor-inputs {
+				display: grid;
+				grid-template-columns: 2fr 1fr;
+				gap: 20px;
+			}
+
+			.investors-section {
+				margin-top: 30px;
+			}
+
+			@media (max-width: 768px) {
+				.header h1 {
+					font-size: 2rem;
+				}
+
+				.content {
+					padding: 20px;
+				}
+
+				.section {
+					padding: 20px;
+				}
+
+				.input-grid {
+					grid-template-columns: 1fr;
+				}
+
+				.results-grid {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="header">
+				<h1>Trading Profit Sharing Calculator</h1>
+				<p>
+					Calculate profit distribution and ownership percentages for your
+					trading partnership
+				</p>
+			</div>
+
+			<div class="content">
+				<!-- Input Section -->
+				<div class="section">
+					<h2>📊 Capital & Profit Input</h2>
+					<div class="input-grid">
+						<div class="input-group">
+							<label for="totalProfit">Total Profit/Loss ($)</label>
+							<input
+								type="number"
+								id="totalProfit"
+								placeholder="Enter total profit (negative for loss)"
+								step="0.01"
+							/>
+						</div>
+						<div class="input-group">
+							<label for="traderCapital">Trader Capital ($)</label>
+							<input
+								type="number"
+								id="traderCapital"
+								placeholder="Your capital investment"
+								step="0.01"
+								value="500"
+							/>
+						</div>
+					</div>
+
+					<div class="investors-section">
+						<div
+							style="
+								display: flex;
+								justify-content: space-between;
+								align-items: center;
+								margin-bottom: 20px;
+							"
+						>
+							<h3 style="color: #2c3e50; margin: 0">Investors</h3>
+							<button id="addInvestorBtn" class="add-btn">
+								<span>+ Add Investor</span>
+							</button>
+						</div>
+						<div id="investorsContainer">
+							<!-- Dynamic investor inputs will be added here -->
+						</div>
+					</div>
+				</div>
+
+				<!-- Results Section -->
+				<div class="section">
+					<h2>💰 Profit Distribution Results</h2>
+					<div class="results-grid">
+						<div class="result-card">
+							<h3>Total Pool</h3>
+							<div class="result-value currency" id="totalPool">$0.00</div>
+						</div>
+						<div class="result-card">
+							<h3>Trader Share</h3>
+							<div class="result-value currency" id="traderShare">$0.00</div>
+						</div>
+						<div class="result-card">
+							<h3>Trader Fees Earned</h3>
+							<div class="result-value currency" id="traderFees">$0.00</div>
+						</div>
+						<div class="result-card">
+							<h3>Total Investors</h3>
+							<div class="result-value" id="totalInvestors">0</div>
+						</div>
+						<div class="result-card">
+							<h3>Profit Status</h3>
+							<div class="result-value" id="profitStatus">
+								<span class="profit-indicator profit">PROFIT</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Ownership Table -->
+				<div class="section">
+					<h2>📈 Ownership & Capital Breakdown</h2>
+					<table class="ownership-table">
+						<thead>
+							<tr>
+								<th>Participant</th>
+								<th>Initial Capital</th>
+								<th>Ownership %</th>
+								<th>Final Balance</th>
+								<th>Profit/Loss</th>
+							</tr>
+						</thead>
+						<tbody id="ownershipTableBody">
+							<!-- Dynamic content will be inserted here -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			// Investor management
+			let investorCount = 0;
+			let investors = [];
+
+			// Get input elements
+			const totalProfitInput = document.getElementById("totalProfit");
+			const traderCapitalInput = document.getElementById("traderCapital");
+			const addInvestorBtn = document.getElementById("addInvestorBtn");
+			const investorsContainer = document.getElementById("investorsContainer");
+
+			// Get result elements
+			const results = {
+				totalPool: document.getElementById("totalPool"),
+				traderShare: document.getElementById("traderShare"),
+				traderFees: document.getElementById("traderFees"),
+				totalInvestors: document.getElementById("totalInvestors"),
+				profitStatus: document.getElementById("profitStatus"),
+			};
+
+			const ownershipTableBody = document.getElementById("ownershipTableBody");
+
+			// Event listeners
+			totalProfitInput.addEventListener("input", calculateShares);
+			traderCapitalInput.addEventListener("input", calculateShares);
+			addInvestorBtn.addEventListener("click", addInvestor);
+
+			function addInvestor() {
+				investorCount++;
+				const investorId = `investor${investorCount}`;
+
+				const investorDiv = document.createElement("div");
+				investorDiv.className = "investor-item";
+				investorDiv.id = `${investorId}Container`;
+
+				investorDiv.innerHTML = `
+                <div class="investor-header">
+                    <h4 class="investor-title">Investor ${investorCount}</h4>
+                    <button class="remove-btn" onclick="removeInvestor('${investorId}')">Remove</button>
+                </div>
+                <div class="investor-inputs">
+                    <div class="input-group">
+                        <label for="${investorId}Capital">Capital ($)</label>
+                        <input type="number" id="${investorId}Capital" placeholder="Enter capital amount" step="0.01" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="${investorId}Fee">Fee Rate (%)</label>
+                        <input type="number" id="${investorId}Fee" placeholder="Fee %" step="0.1" min="0" max="100">
+                    </div>
+                </div>
+            `;
+
+				investorsContainer.appendChild(investorDiv);
+
+				// Add event listeners to new inputs
+				document
+					.getElementById(`${investorId}Capital`)
+					.addEventListener("input", calculateShares);
+				document
+					.getElementById(`${investorId}Fee`)
+					.addEventListener("input", calculateShares);
+
+				// Add to investors array
+				investors.push({
+					id: investorId,
+					number: investorCount,
+				});
+
+				calculateShares();
+			}
+
+			function removeInvestor(investorId) {
+				// Remove from DOM
+				const container = document.getElementById(`${investorId}Container`);
+				if (container) {
+					container.remove();
+				}
+
+				// Remove from investors array
+				investors = investors.filter(inv => inv.id !== investorId);
+
+				calculateShares();
+			}
+
+			function getInvestorData() {
+				return investors
+					.map(investor => {
+						const capitalEl = document.getElementById(`${investor.id}Capital`);
+						const feeEl = document.getElementById(`${investor.id}Fee`);
+
+						return {
+							id: investor.id,
+							number: investor.number,
+							capital: parseFloat(capitalEl?.value) || 0,
+							feeRate: parseFloat(feeEl?.value) || 0,
+						};
+					})
+					.filter(inv => inv.capital > 0); // Only include investors with capital
+			}
+
+			function formatCurrency(amount) {
+				return new Intl.NumberFormat("en-US", {
+					style: "currency",
+					currency: "USD",
+					minimumFractionDigits: 2,
+				}).format(amount);
+			}
+
+			function formatPercentage(percentage) {
+				return `${percentage.toFixed(2)}%`;
+			}
+
+			function calculateShares() {
+				// Get input values
+				const totalProfit = parseFloat(totalProfitInput.value) || 0;
+				const traderCapital = parseFloat(traderCapitalInput.value) || 0;
+				const investorData = getInvestorData();
+
+				// Calculate total capital pool
+				const totalInvestorCapital = investorData.reduce(
+					(sum, inv) => sum + inv.capital,
+					0
+				);
+				const totalCapital = traderCapital + totalInvestorCapital;
+
+				// Calculate ownership percentages
+				const traderOwnership =
+					totalCapital > 0 ? (traderCapital / totalCapital) * 100 : 0;
+
+				let traderFees = 0;
+				let traderProfit = 0;
+				const investorResults = [];
+
+				if (totalProfit > 0) {
+					// Calculate profit shares based on capital ownership
+					const traderProfitShare =
+						totalProfit * (traderCapital / totalCapital);
+
+					// Calculate investor profits and fees
+					investorData.forEach(investor => {
+						const investorProfitShare =
+							totalProfit * (investor.capital / totalCapital);
+						const investorFee = investorProfitShare * (investor.feeRate / 100);
+
+						traderFees += investorFee;
+
+						investorResults.push({
+							...investor,
+							ownership: (investor.capital / totalCapital) * 100,
+							profitShare: investorProfitShare,
+							fee: investorFee,
+							finalProfit: investorProfitShare - investorFee,
+							finalBalance:
+								investor.capital + investorProfitShare - investorFee,
+						});
+					});
+
+					// Final trader profit (own share + fees)
+					traderProfit = traderProfitShare + traderFees;
+				} else {
+					// For losses, distribute proportionally with no fees
+					traderProfit = totalProfit * (traderCapital / totalCapital);
+
+					investorData.forEach(investor => {
+						const investorLoss =
+							totalProfit * (investor.capital / totalCapital);
+
+						investorResults.push({
+							...investor,
+							ownership: (investor.capital / totalCapital) * 100,
+							profitShare: investorLoss,
+							fee: 0,
+							finalProfit: investorLoss,
+							finalBalance: investor.capital + investorLoss,
+						});
+					});
+				}
+
+				// Calculate final balances
+				const traderFinalBalance = traderCapital + traderProfit;
+
+				// Update results display
+				results.totalPool.textContent = formatCurrency(totalCapital);
+				results.traderShare.textContent = formatCurrency(traderFinalBalance);
+				results.traderFees.textContent = formatCurrency(traderFees);
+				results.totalInvestors.textContent = investorData.length.toString();
+
+				// Update profit status
+				const isProfit = totalProfit >= 0;
+				results.profitStatus.innerHTML = isProfit
+					? '<span class="profit-indicator profit">PROFIT</span>'
+					: '<span class="profit-indicator loss">LOSS</span>';
+
+				// Apply color classes to result values
+				results.traderShare.classList.toggle(
+					"negative",
+					traderFinalBalance < traderCapital
+				);
+
+				// Update ownership table
+				updateOwnershipTable({
+					traderCapital,
+					traderOwnership,
+					traderFinalBalance,
+					traderProfit,
+					investorResults,
+				});
+			}
+
+			function updateOwnershipTable(data) {
+				const rows = [
+					{
+						name: "Trader (You)",
+						capital: data.traderCapital,
+						ownership: data.traderOwnership,
+						finalBalance: data.traderFinalBalance,
+						profitLoss: data.traderProfit,
+					},
+					...data.investorResults.map(investor => ({
+						name: `Investor ${investor.number}`,
+						capital: investor.capital,
+						ownership: investor.ownership,
+						finalBalance: investor.finalBalance,
+						profitLoss: investor.finalProfit,
+					})),
+				];
+
+				ownershipTableBody.innerHTML = rows
+					.map(
+						row => `
+                <tr>
+                    <td><strong>${row.name}</strong></td>
+                    <td>${formatCurrency(row.capital)}</td>
+                    <td>${formatPercentage(row.ownership)}</td>
+                    <td class="${
+											row.finalBalance < row.capital ? "negative" : ""
+										}">${formatCurrency(row.finalBalance)}</td>
+                    <td class="${
+											row.profitLoss < 0 ? "negative" : ""
+										}">${formatCurrency(row.profitLoss)}</td>
+                </tr>
+            `
+					)
+					.join("");
+			}
+
+			// Add initial investors for demo
+			function initializeDemo() {
+				// Add first investor
+				addInvestor();
+				document.getElementById("investor1Capital").value = 500;
+				document.getElementById("investor1Fee").value = 15;
+
+				// Add second investor
+				addInvestor();
+				document.getElementById("investor2Capital").value = 200;
+				document.getElementById("investor2Fee").value = 20;
+
+				calculateShares();
+			}
+
+			// Initialize with demo data
+			initializeDemo();
+		</script>
+	</body>
+</html>

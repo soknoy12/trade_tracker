@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Trading Profit Sharing Calculator</title>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<h1>Trading Profit Sharing Calculator</h1>
+				<p>Manage traders and calculate profit distribution</p>
+			</header>
+
+			<nav class="navigation">
+				<button class="nav-btn active" data-section="traders">Traders</button>
+				<button class="nav-btn" data-section="sessions">
+					Trading Sessions
+				</button>
+				<button class="nav-btn" data-section="calculator">New Session</button>
+				<button class="nav-btn" data-section="statistics">Statistics</button>
+			</nav>
+
+			<!-- Traders Section -->
+			<section id="traders-section" class="section active">
+				<div class="section-header">
+					<h2>Traders Management</h2>
+					<button class="btn btn-primary" id="add-trader-btn">
+						Add New Trader
+					</button>
+				</div>
+
+				<div class="traders-grid" id="traders-list">
+					<!-- Traders will be loaded here -->
+				</div>
+			</section>
+
+			<!-- Trading Sessions Section -->
+			<section id="sessions-section" class="section">
+				<div class="section-header">
+					<h2>Trading Sessions</h2>
+					<select id="trader-filter" class="form-select">
+						<option value="">Select Trader to View Sessions</option>
+					</select>
+				</div>
+
+				<div class="sessions-container" id="sessions-list">
+					<!-- Sessions will be loaded here -->
+				</div>
+			</section>
+
+			<!-- Calculator Section -->
+			<section id="calculator-section" class="section">
+				<div class="section-header">
+					<h2>Create New Trading Session</h2>
+				</div>
+
+				<form id="trading-form" class="trading-form">
+					<div class="form-row">
+						<div class="form-group">
+							<label for="trader-select">Select Trader</label>
+							<select id="trader-select" class="form-select" required>
+								<option value="">Choose a trader</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="session-name">Session Name</label>
+							<input
+								type="text"
+								id="session-name"
+								class="form-input"
+								required
+							/>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="form-group">
+							<label for="total-profit">Total Profit/Loss ($)</label>
+							<input
+								type="number"
+								id="total-profit"
+								class="form-input"
+								step="0.01"
+								required
+							/>
+						</div>
+						<div class="form-group">
+							<label for="trader-capital">Trader Capital ($)</label>
+							<input
+								type="number"
+								id="trader-capital"
+								class="form-input"
+								step="0.01"
+								required
+							/>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="form-group">
+							<label for="session-date">Session Date</label>
+							<input
+								type="date"
+								id="session-date"
+								class="form-input"
+								required
+							/>
+						</div>
+						<div class="form-group">
+							<label for="notes">Notes (Optional)</label>
+							<input type="text" id="notes" class="form-input" />
+						</div>
+					</div>
+
+					<div class="investors-section">
+						<div class="section-header">
+							<h3>Investors</h3>
+							<button
+								type="button"
+								class="btn btn-secondary"
+								id="add-investor-btn"
+							>
+								Add Investor
+							</button>
+						</div>
+
+						<div id="investors-container">
+							<!-- Investors will be added here -->
+						</div>
+					</div>
+
+					<div class="form-actions">
+						<button type="submit" class="btn btn-primary btn-large">
+							Calculate & Save Session
+						</button>
+						<button type="button" class="btn btn-secondary" id="reset-form-btn">
+							Reset Form
+						</button>
+					</div>
+				</form>
+			</section>
+
+			<!-- Statistics Section -->
+			<section id="statistics-section" class="section">
+				<div class="section-header">
+					<h2>Trading Statistics</h2>
+					<select id="stats-trader-select" class="form-select">
+						<option value="">Select Trader for Statistics</option>
+					</select>
+				</div>
+
+				<div class="stats-container" id="stats-display">
+					<!-- Statistics will be displayed here -->
+				</div>
+			</section>
+		</div>
+
+		<!-- Add Trader Modal -->
+		<div id="trader-modal" class="modal">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3>Add New Trader</h3>
+					<button class="modal-close" id="close-trader-modal">&times;</button>
+				</div>
+				<form id="trader-form">
+					<div class="form-group">
+						<label for="trader-name">Trader Name</label>
+						<input type="text" id="trader-name" class="form-input" required />
+					</div>
+					<div class="form-group">
+						<label for="trader-email">Email</label>
+						<input type="email" id="trader-email" class="form-input" required />
+					</div>
+					<div class="modal-actions">
+						<button type="submit" class="btn btn-primary">Add Trader</button>
+						<button
+							type="button"
+							class="btn btn-secondary"
+							id="cancel-trader-modal"
+						>
+							Cancel
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- Session Details Modal -->
+		<div id="session-modal" class="modal">
+			<div class="modal-content modal-large">
+				<div class="modal-header">
+					<h3>Session Details</h3>
+					<button class="modal-close" id="close-session-modal">&times;</button>
+				</div>
+				<div id="session-details-content">
+					<!-- Session details will be loaded here -->
+				</div>
+			</div>
+		</div>
+
+		<!-- Loading Overlay -->
+		<div id="loading-overlay" class="loading-overlay">
+			<div class="loading-spinner"></div>
+			<p>Loading...</p>
+		</div>
+
+		<!-- Notification -->
+		<div id="notification" class="notification">
+			<span class="notification-message"></span>
+			<button class="notification-close">&times;</button>
+		</div>
+
+		<script src="script.js"></script>
+	</body>
+</html>
